@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  frontend:
+      container_name: frontend
+      build:
+        context: ./
+        dockerfile: ./apps/frontend/Dockerfile
+      restart: unless-stopped
+      environment:
+        - HTTP_SERVER = "http://localhost:1234"
+      ports:
+        - "4000:4000"
+      networks:
+        - trustlist
+
+  node:
+    container_name: node
+    build:
+        context: ./
+        dockerfile: ./apps/node/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8545:8545"
+    networks:
+      - trustlist
+
+  relayer:
+    container_name: relayer
+    build:
+      context: ./
+      dockerfile: ./apps/relayer/Dockerfile
+    pull_policy: always
+    restart: unless-stopped
+    environment:
+      - ETH_PROVIDER_URL=http://node:8545
+    ports:
+      - "8000:8000"
+    networks:
+      - trustlist
+    depends_on:
+      - node
+
+networks:
+  trustlist:
+    internal: false
+    driver: bridge
