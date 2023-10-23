@@ -33,7 +33,7 @@ services:
     pull_policy: always
     restart: unless-stopped
     environment:
-      - ETH_PROVIDER_URL=http://node:8545
+      - ETH_PROVIDER_URL=http://node-ip:8545
     ports:
       - "8000:8000"
     networks:
