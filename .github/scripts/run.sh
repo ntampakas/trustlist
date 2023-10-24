@@ -9,7 +9,7 @@ SHA=$4
 AMI="ami-04e601abe3e1a910f"
 SG="sg-0edb126b2d5fa18f7"
 SUBNET="subnet-0fb41fbb99794e19b"
-VPC="vpc-05dedcb650bd24f8d"
+VPC="vpc-04848f977fbc9560d"
 
 # Kill old instances
 CURRENT_TIME_EPOCH=$(date -d `date -Is` +"%s")

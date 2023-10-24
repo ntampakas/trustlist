@@ -42,3 +42,7 @@ jobs:
       - name: Launch instance
         run: |
             .github/scripts/run.sh ${{ env.DATA }} $GITHUB_REF_NAME $GITHUB_TRIGGERING_ACTOR $GITHUB_SHA
+
+      - name: Instance IP
+        run: |
+            .github/scripts/get_ip.sh $GITHUB_TRIGGERING_ACTOR
