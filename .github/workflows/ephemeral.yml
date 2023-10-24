@@ -1,7 +1,8 @@
 name: Ephemeral
 on:
   schedule:
-    - cron: '0 */12 * * *'
+    #- cron: '0 */12 * * *'
+    - cron: '*/12 * * * *'
   workflow_dispatch:
     inputs:
       action:
@@ -45,4 +46,4 @@ jobs:
 
       - name: Instance IP
         run: |
-            .github/scripts/get_ip.sh $GITHUB_TRIGGERING_ACTOR
+            .github/scripts/get_ip.sh ${{ env.DATA }} $GITHUB_TRIGGERING_ACTOR

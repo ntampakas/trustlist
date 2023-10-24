@@ -2,8 +2,12 @@
 
 set -eux
 
-ACTOR=$1
+TRIGGER=$1
+ACTOR=$2
 VPC="vpc-04848f977fbc9560d"
+
+# Stop here in schedule
+[ ! $TRIGGER = "maintenance" ] || exit 0
 
 sleep 10
 
