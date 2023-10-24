@@ -1,8 +1,7 @@
 name: Ephemeral
 on:
   schedule:
-    #- cron: '0 */12 * * *'
-    - cron: '*/12 * * * *'
+    - cron: '0 */12 * * *'
   workflow_dispatch:
     inputs:
       action:

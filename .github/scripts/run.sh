@@ -19,8 +19,7 @@ for i in $EC2; do
   LAUNCH_TIME_EPOCH=$(date -d $EC2_LAUNCH_TIME +"%s")
   diff=$(expr $CURRENT_TIME_EPOCH - $LAUNCH_TIME_EPOCH)
 
-  #if [ $diff -gt 43200 ]; then
-  if [ $diff -gt 1000 ]; then
+  if [ $diff -gt 43200 ]; then
     aws ec2 terminate-instances --instance-ids $i
   fi
 done
