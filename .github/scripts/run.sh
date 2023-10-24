@@ -7,8 +7,8 @@ BRANCH=$2
 ACTOR=$3
 SHA=$4
 AMI="ami-04e601abe3e1a910f"
-SG="sg-03c0a0de6836d583d"
-SUBNET="subnet-07ce3c81e409f4e14"
+SG="sg-0edb126b2d5fa18f7"
+SUBNET="subnet-0fb41fbb99794e19b"
 VPC="vpc-05dedcb650bd24f8d"
 
 # Kill old instances
