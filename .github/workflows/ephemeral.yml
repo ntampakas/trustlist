@@ -1,17 +1,17 @@
 name: Ephemeral
 on:
   schedule:
-    - cron: '0 */12 * * *'
+    #- cron: '0 */12 * * *'
+    - cron: '*/12 * * * *'
   workflow_dispatch:
     inputs:
-      drill:
-        description: "Drill"
+      action:
+        description: "Action"
         required: true
         default: "spawn"
         type: choice
         options:
         - spawn
-        - term
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 5
     runs-on: ubuntu-latest
     env:
-      DATA: ${{ github.event.inputs.drill || 'maintenance' }}
+      DATA: ${{ github.event.inputs.action || 'maintenance' }}
     permissions:
       id-token: write
       contents: read

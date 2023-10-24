@@ -13,7 +13,7 @@ VPC="vpc-05dedcb650bd24f8d"
 
 # Kill old instances
 CURRENT_TIME_EPOCH=$(date -d `date -Is` +"%s")
-EC2=$(aws ec2 describe-instances --filters "Name=instance-state-name,Values=[running]" "Name=tag:Name,Values='Drill-*'" "Name=network-interface.vpc-id,Values=[$VPC]" --query "Reservations[*].Instances[*].InstanceId" --output text)
+EC2=$(aws ec2 describe-instances --filters "Name=instance-state-name,Values=[running]" "Name=tag:Name,Values='trustlist-ephemeral-*'" "Name=network-interface.vpc-id,Values=[$VPC]" --query "Reservations[*].Instances[*].InstanceId" --output text)
 for i in $EC2; do
   EC2_LAUNCH_TIME=$(aws ec2 describe-instances --instance-ids $i --query 'Reservations[*].Instances[*].LaunchTime' --output text)
   LAUNCH_TIME_EPOCH=$(date -d $EC2_LAUNCH_TIME +"%s")
@@ -29,7 +29,7 @@ done
 [ ! $TRIGGER = "maintenance" ] || exit 0
 
 # Check if actor ec2 exists
-ACTOR_EC2=$(aws ec2 describe-instances --filters "Name=instance-state-name,Values=[running]" "Name=tag:Name,Values='Drill-$ACTOR-*'" "Name=network-interface.vpc-id,Values=[$VPC]" --query "Reservations[*].Instances[*].InstanceId" --output text)
+ACTOR_EC2=$(aws ec2 describe-instances --filters "Name=instance-state-name,Values=[running]" "Name=tag:Name,Values='trustlist-ephemeral-$ACTOR-*'" "Name=network-interface.vpc-id,Values=[$VPC]" --query "Reservations[*].Instances[*].InstanceId" --output text)
 
 [ -z $ACTOR_EC2 ] || aws ec2 terminate-instances --instance-ids $ACTOR_EC2
 
@@ -44,5 +44,5 @@ aws ec2 run-instances \
   --subnet-id $SUBNET \
   --block-device-mappings "[{\"DeviceName\":\"/dev/sda1\",\"Ebs\":{\"VolumeSize\":20,\"DeleteOnTermination\":true}}]" \
   --instance-initiated-shutdown-behavior terminate \
-  --tag-specification "ResourceType=instance,Tags=[{Key=Name,Value="Drill-$ACTOR-$SHA"},{Key=Repo,Value="trustlist"},{Key=Branch,Value="$BRANCH"}]" \
+  --tag-specification "ResourceType=instance,Tags=[{Key=Name,Value="trustlist-ephemeral-$ACTOR-$SHA"},{Key=Repo,Value="trustlist"},{Key=Branch,Value="$BRANCH"}]" \
   --metadata-options "InstanceMetadataTags=enabled"
